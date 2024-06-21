@@ -11,9 +11,11 @@ const Watchlist = ({ data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch()
 
+  let apiKey = '4c901ca1'
+
   const searchMovies = async (search) => {
     try {
-      const response = await axios.get(`https://www.omdbapi.com/?s=${search}&apikey=4c901ca1`);
+      const response = await axios.get(`https://www.omdbapi.com/?s=${search}&apikey=${apiKey}`);
       if (response.data.Search) {
         setSearchResult(response.data.Search);
         onOpen();
@@ -27,7 +29,7 @@ const Watchlist = ({ data }) => {
 
   const addToWatchlist = async (movie) => {
     try {
-      const response = await axios.get(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=4c901ca1`);
+      const response = await axios.get(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=${apiKey}`);
       const res = response.data;
       const newMovie = {
         Title: res.Title,

@@ -16,16 +16,12 @@ import Navbar from "../Components/Navbar/Navbar"
   
 const Home = () => {
 
-    const [search, setSearch] = useState("")
     const dispatch = useDispatch()
 
     useEffect(()=>{
         dispatch(getMovies())
     },[])
 
-    const searchMovies=(inputValue)=>{
-        console.log('inputValue:', inputValue)
-    }
     return (
       <Container minW="100%" p="0px"  bgColor="#000">
         <Container

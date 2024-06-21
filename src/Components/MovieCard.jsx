@@ -5,7 +5,6 @@ import { updateMovie } from '../Redux/controllers';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MovieCard = ({ item }) => {
-    const { movies, loading, error } = useSelector((store)=>store.movies)
     const dispatch = useDispatch()
 
   const yourRating = parseInt(item?.YourRating || 0)
