@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Center, Stack, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useDisclosure, Box, Image, Text } from '@chakra-ui/react';
+import { Container, Grid, Center, Stack, Input, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useDisclosure, Box, Image, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import MovieCard from '../Components/MovieCard';
 import { addMovie } from '../Redux/controllers';
@@ -10,7 +10,7 @@ const Watchlist = ({ data }) => {
   const [searchResult, setSearchResult] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch()
-
+  const toast = useToast();
   let apiKey = '4c901ca1'
 
   const searchMovies = async (search) => {
@@ -52,6 +52,15 @@ const Watchlist = ({ data }) => {
         YourRating: '0',
       };
       dispatch(addMovie(newMovie))
+      toast({
+        title: "Success",
+        description: "Added To Watchlist.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+      onClose()
     } catch (error) {
       console.error("Error fetching detailed movie data from OMDB API:", error);
     }
@@ -96,7 +105,7 @@ const Watchlist = ({ data }) => {
           templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
           gap={6}
         >
-          {data.map((item) => (
+          {data?.map((item) => (
             <MovieCard key={item?._id} item={item} />
           ))}
         </Grid>
