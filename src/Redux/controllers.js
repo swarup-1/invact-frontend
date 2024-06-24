@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-// let baseURL = 'https://invact-backend.vercel.app'
-let baseURL = 'http://localhost:8080'
+let baseURL = 'https://invact-backend.vercel.app'
+// let baseURL = 'http://localhost:8080'
 export const getMovies = createAsyncThunk('movies/get', async (_) => {
     try {
         const res = await axios.get(`${baseURL}/movies/`);
@@ -13,7 +13,6 @@ export const getMovies = createAsyncThunk('movies/get', async (_) => {
 });
 
 export const addMovie = createAsyncThunk('movies/add', async (newMovie) => {
-    console.log('newMovie:', newMovie)
     try {
         const res = await axios.post(`${baseURL}/movies/`, newMovie);
         return res.data;

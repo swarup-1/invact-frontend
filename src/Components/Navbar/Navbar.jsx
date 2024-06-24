@@ -19,25 +19,28 @@ import { AuthContext } from '../../Context/AuthContextProvider';
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAuth, user, login, logout } = useContext(AuthContext);
-  let initialState = { name: '', email: '', password: '' }
+  const initialState = { name: '', email: '', password: '' };
   const [userState, setUserState] = useState(initialState);
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     login(userState.name, userState.email, userState.password);
     onClose();
-    setUserState(initialState)
+    setUserState(initialState);
   };
 
   return (
     <Stack p="20px" direction={{ base: "column", md: "row" }} justifyContent="space-between" minW="100%">
       <Image width={{ base: "100px", md: "150px" }} src={logo} />
       <Stack direction={{ base: "column", md: "row" }} spacing={4} mt={{ base: "20px", md: "0" }}>
-        <Button onClick={onOpen} height="40px" fontSize={{ base: "16px", md: "18px" }} width={{ base: "100%", md: "120px" }} bgColor="rgb(229,9,20)" color="white" mb={{ base: "10px", md: "0" }}>
+        <Button onClick={onOpen} height="40px" fontSize={{ base: "16px", md: "18px" }} width='100%' bgColor="rgb(229,9,20)" color="white" mb={{ base: "10px", md: "0" }}>
           {isAuth ? `Hi ${user?.name}` : 'Sign In'}
         </Button>
-        {isAuth && <Button onClick={logout} height="40px" fontSize={{ base: "16px", md: "18px" }} width={{ base: "100%", md: "120px" }} bgColor="rgb(229,9,20)" color="white" mb={{ base: "10px", md: "0" }}>
-          Logout
-        </Button>}
+        {isAuth && (
+          <Button onClick={logout} height="40px" fontSize={{ base: "16px", md: "18px" }} width={{ base: "100%", md: "120px" }} bgColor="rgb(229,9,20)" color="white" mb={{ base: "10px", md: "0" }}>
+            Logout
+          </Button>
+        )}
         <Link to="/watchlist">
           <Button height="40px" fontSize={{ base: "16px", md: "18px" }} width={{ base: "100%", md: "120px" }} bgColor="rgb(229,9,20)" color="white">
             Wishlist
@@ -50,38 +53,44 @@ const Navbar = () => {
           <ModalHeader>Sign In</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb="50px">
-            <Stack spacing={4}>
-              <Input
-                placeholder="Name"
-                border="1px solid rgb(244,6,18)"
-                _placeholder={{ color: 'rgb(244,6,18)' }}
-                value={userState.name}
-                onChange={(e) => setUserState({ ...userState, name: e.target.value })}
-              />
-              <Input
-                placeholder="Email"
-                border="1px solid rgb(244,6,18)"
-                _placeholder={{ color: 'rgb(244,6,18)' }}
-                value={userState.email}
-                onChange={(e) => setUserState({ ...userState, email: e.target.value })}
-              />
-              <Input
-                placeholder="Password"
-                border="1px solid rgb(244,6,18)"
-                _placeholder={{ color: 'rgb(244,6,18)' }}
-                value={userState.password}
-                onChange={(e) => setUserState({ ...userState, password: e.target.value })}
-              />
-              <Button
-                width="100%"
-                bg="rgb(244,6,18)"
-                color="#fff"
-                _hover={{ bg: "rgba(244,6,18, 0.8)" }}
-                onClick={handleLogin}
-              >
-                Submit
-              </Button>
-            </Stack>
+            <form onSubmit={handleLogin}>
+              <Stack spacing={4}>
+                <Input
+                  placeholder="Name"
+                  border="1px solid rgb(244,6,18)"
+                  _placeholder={{ color: 'rgb(244,6,18)' }}
+                  value={userState.name}
+                  onChange={(e) => setUserState({ ...userState, name: e.target.value })}
+                />
+                <Input
+                  placeholder="Email"
+                  border="1px solid rgb(244,6,18)"
+                  _placeholder={{ color: 'rgb(244,6,18)' }}
+                  value={userState.email}
+                  onChange={(e) => setUserState({ ...userState, email: e.target.value })}
+                  type='email'
+                  required
+                />
+                <Input
+                  placeholder="Password"
+                  border="1px solid rgb(244,6,18)"
+                  _placeholder={{ color: 'rgb(244,6,18)' }}
+                  value={userState.password}
+                  onChange={(e) => setUserState({ ...userState, password: e.target.value })}
+                  type='password'
+                  required
+                />
+                <Button
+                  type="submit"
+                  width="100%"
+                  bg="rgb(244,6,18)"
+                  color="#fff"
+                  _hover={{ bg: "rgba(244,6,18, 0.8)" }}
+                >
+                  Submit
+                </Button>
+              </Stack>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>

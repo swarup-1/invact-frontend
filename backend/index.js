@@ -6,8 +6,10 @@ require('dotenv').config()
 
 const app = express();
 app.use(express.json());
-app.use(cors());
 
+app.use(cors({
+    origin: 'https://invact-frontend.vercel.app/',
+}));
 
 app.get("/", (req, res) => {
     res.send("Welcome to Invact database");
@@ -15,8 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/movies", moviesRouter)
 
-
-app.listen(8080, async()=>{
+app.listen(8080, async () => {
     try {
         await connections;
         console.log("Connected to DB");
